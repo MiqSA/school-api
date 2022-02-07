@@ -1,7 +1,30 @@
-from django.http import JsonResponse
+from rest_framework import viewsets, permissions
+from school.models import Student, Class, Subscription
+from school.serializer import StudentSerializer, ClassSerializer, SubscriptionSerializer
 
-def students(request):
-    if request.method == 'GET':
-        student = {'id': 1, 'name': 'Mick'}
 
-        return JsonResponse(student)
+
+class StudentsViewSet(viewsets.ModelViewSet):
+    """ Show all students """
+
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+
+class ClassViewSet(viewsets.ModelViewSet):
+    """ Show all classes"""
+
+    queryset = Class.objects.all()
+    serializer_class = ClassSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    """ Show all subscriptions"""
+
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+    # permission_classes = [permissions.IsAuthenticated]
