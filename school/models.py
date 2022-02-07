@@ -24,3 +24,19 @@ class Class(models.Model):
 
     def __str__(self):
         return self.description
+
+
+
+
+class Subscription(models.Model):
+    PERIOD = (
+        ('M', 'Morning'),
+        ('A', 'Afternoon'),
+        ('N', 'Night')
+    )
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    class_name = models.ForeignKey(Class, on_delete=models.CASCADE)
+    period = models.CharField(max_length=1, choices=PERIOD, blank=False, null=False, default='M')
+
+
