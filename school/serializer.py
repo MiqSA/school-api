@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from school.models import Student, Class
+from school.models import Student, Class, Subscription
 
 # Responsible to link the database in json form
 
@@ -21,3 +21,9 @@ class ClassSerializer(serializers.ModelSerializer):
 
 
 
+class SubscriptionSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = Subscription
+        exclude = []
