@@ -1,6 +1,9 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, generics
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from school.models import Student, Class, Subscription
-from school.serializer import StudentSerializer, ClassSerializer, SubscriptionSerializer
+from school.serializer import StudentSerializer, ClassSerializer, SubscriptionSerializer, \
+    ListSubscriptionsStudentSerializer, ListStudentsSubscribersClassSeriliazer
 
 
 
@@ -9,7 +12,8 @@ class StudentsViewSet(viewsets.ModelViewSet):
 
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 
@@ -18,7 +22,8 @@ class ClassViewSet(viewsets.ModelViewSet):
 
     queryset = Class.objects.all()
     serializer_class = ClassSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 
@@ -27,4 +32,30 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
 
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
+
+class ListSubscriptionStudent(generics.ListAPIView):
+    """ Listing subscriptions from students"""
+
+    def get_queryset(self):
+        queryset = Subscription.objects.filter(student_id=self.kwargs['pk'])
+        return queryset
+
+    serializer_class = ListSubscriptionsStudentSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
+class ListStudentSubscription(generics.ListAPIView):
+    """ Listing students from an class"""
+
+    def get_queryset(self):
+        queryset = Subscription.objects.filter(class_name_id=self.kwargs['pk'])
+        return queryset
+
+    serializer_class = ListStudentsSubscribersClassSeriliazer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
