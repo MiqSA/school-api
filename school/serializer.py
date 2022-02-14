@@ -27,3 +27,27 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         exclude = []
+
+
+
+class ListSubscriptionsStudentSerializer(serializers.ModelSerializer):
+    class_name = serializers.ReadOnlyField(source='class_name.description')
+    period = serializers.SerializerMethodField()
+
+
+    class Meta:
+        model = Subscription
+        fields = ['class_name', 'period']
+
+    def get_period(self, obj):
+        return obj.get_period_display()
+
+
+
+class ListStudentsSubscribersClassSeriliazer(serializers.ModelSerializer):
+    student_name = serializers.ReadOnlyField(source='student.name')
+
+
+    class Meta:
+        model = Subscription
+        fields = ['student_name']
